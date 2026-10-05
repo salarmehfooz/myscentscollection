@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "products": {
+      "title": "Products",
+      "description": "Perfume inventory with live stock levels and pricing.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "tagline": { "type": "string" },
+        "description": { "type": "string" },
+        "topNotes": { "type": "string" },
+        "heartNotes": { "type": "string" },
+        "baseNotes": { "type": "string" },
+        "retail": { "type": "number" },
+        "discount": { "type": "number" },
+        "stock": { "type": "number" },
+        "sku": { "type": "string" },
+        "category": { "type": "string" },
+        "volume": { "type": "string" },
+        "img": { "type": "string" },
+        "featured": { "type": "boolean" },
+        "active": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "retail", "discount", "stock", "category"]
+    },
+    "sales": {
+      "title": "Sales",
+      "description": "Real-time POS sales and online orders.",
+      "type": "object",
+      "properties": {
+        "orderNumber": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string" },
+        "type": { "type": "string" },
+        "items": { "type": "array" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["orderNumber", "totalAmount", "items", "createdAt"]
+    },
+    "inquiries": {
+      "title": "Inquiries",
+      "description": "Customer contact form submissions.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "email", "message", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "products",
+      "description": "Perfume inventory products catalog"
+    },
+    "/sales/{saleId}": {
+      "schema": "sales",
+      "description": "Sales orders and POS transaction receipts"
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": "inquiries",
+      "description": "Customer contact form messages"
+    }
+  }
+}

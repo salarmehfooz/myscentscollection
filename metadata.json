@@ -1,0 +1,6 @@
+{
+  "name": "My Scents Collection",
+  "description": "Luxury fragrance store with multi-page router, product details, cart, and real-time POS admin inventory management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
