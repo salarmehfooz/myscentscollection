@@ -1,7 +1,31 @@
-import React from 'react';
-import { Sparkles, MapPin, Phone, Mail, Clock, Store, Heart } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Sparkles,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Store,
+  Heart,
+} from "lucide-react";
 
 export const Footer = ({ navigate }) => {
+  const [secretClicks, setSecretClicks] = useState(0);
+
+  const handleSecretClick = () => {
+    setSecretClicks((prev) => {
+      const next = prev + 1;
+      if (next >= 3) {
+        navigate("/admin");
+        return 0;
+      }
+      return next;
+    });
+
+    setTimeout(() => {
+      setSecretClicks(0);
+    }, 2000);
+  };
   return (
     <footer className="bg-[#0F2747] text-slate-300 pt-16 pb-12 border-t border-amber-500/20 relative overflow-hidden">
       {/* Background Subtle Gradient Glow */}
@@ -22,11 +46,14 @@ export const Footer = ({ navigate }) => {
               </span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Luxury fragrances crafted for unforgettable moments. Premium quality, elegant packaging, and long-lasting signature scents at accessible prices.
+              Luxury fragrances crafted for unforgettable moments. Premium
+              quality, elegant packaging, and long-lasting signature scents at
+              accessible prices.
             </p>
             <div className="pt-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">
-                <Sparkles className="w-3 h-3 text-amber-400" /> 100% Original Extrait De Parfum
+                <Sparkles className="w-3 h-3 text-amber-400" /> 100% Original
+                Extrait De Parfum
               </span>
             </div>
           </div>
@@ -40,8 +67,8 @@ export const Footer = ({ navigate }) => {
               <li>
                 <button
                   onClick={() => {
-                    navigate('/');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    navigate("/");
+                    window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
                   className="hover:text-amber-400 transition-colors"
                 >
@@ -51,9 +78,11 @@ export const Footer = ({ navigate }) => {
               <li>
                 <button
                   onClick={() => {
-                    navigate('/');
+                    navigate("/");
                     setTimeout(() => {
-                      document.getElementById('catalogue')?.scrollIntoView({ behavior: 'smooth' });
+                      document
+                        .getElementById("catalogue")
+                        ?.scrollIntoView({ behavior: "smooth" });
                     }, 100);
                   }}
                   className="hover:text-amber-400 transition-colors"
@@ -63,7 +92,7 @@ export const Footer = ({ navigate }) => {
               </li>
               <li>
                 <button
-                  onClick={() => navigate('/cart')}
+                  onClick={() => navigate("/cart")}
                   className="hover:text-amber-400 transition-colors"
                 >
                   Shopping Bag &amp; Checkout
@@ -72,9 +101,11 @@ export const Footer = ({ navigate }) => {
               <li>
                 <button
                   onClick={() => {
-                    navigate('/');
+                    navigate("/");
                     setTimeout(() => {
-                      document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                      document
+                        .getElementById("about")
+                        ?.scrollIntoView({ behavior: "smooth" });
                     }, 100);
                   }}
                   className="hover:text-amber-400 transition-colors"
@@ -92,8 +123,12 @@ export const Footer = ({ navigate }) => {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li className="text-slate-400">Woody &amp; Amber (Dark Flame)</li>
-              <li className="text-slate-400">Oud &amp; Oriental (Oud Al Qalb, Sultan)</li>
-              <li className="text-slate-400">Fresh &amp; Aquatic (Deep Aura)</li>
+              <li className="text-slate-400">
+                Oud &amp; Oriental (Oud Al Qalb, Sultan)
+              </li>
+              <li className="text-slate-400">
+                Fresh &amp; Aquatic (Deep Aura)
+              </li>
               <li className="text-slate-400">Floral Gourmand (Eternal Love)</li>
               <li className="text-slate-400">Warm Gourmand (Red Velvet)</li>
             </ul>
@@ -107,7 +142,9 @@ export const Footer = ({ navigate }) => {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3 text-slate-300">
                 <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>Shop 12, Zamzama Boulevard, Phase 5, DHA, Karachi, Pakistan</span>
+                <span>
+                  Shop 12, Zamzama Boulevard, Phase 5, DHA, Karachi, Pakistan
+                </span>
               </li>
               <li className="flex items-center gap-3 text-slate-300">
                 <Phone className="w-4 h-4 text-amber-400 shrink-0" />
@@ -127,11 +164,19 @@ export const Footer = ({ navigate }) => {
 
         {/* Bottom copyright */}
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© 2026 My Scents Collection. All Rights Reserved.</p>
-          
+          <p
+            onClick={handleSecretClick}
+            className="cursor-default select-none transition-colors"
+            title=""
+          >
+            © 2026 My Scents Collection. All Rights Reserved.
+          </p>
+
           <div className="flex items-center space-x-4">
             <span className="flex items-center gap-1 text-slate-400">
-              Made with <Heart className="w-3 h-3 text-amber-400 fill-amber-400 inline" /> for Fragrance Lovers
+              Made with{" "}
+              <Heart className="w-3 h-3 text-amber-400 fill-amber-400 inline" />{" "}
+              for Fragrance Lovers
             </span>
           </div>
         </div>

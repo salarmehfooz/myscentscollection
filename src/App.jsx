@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { InventoryProvider, useInventory } from './context/InventoryContext';
-import { CartProvider } from './context/CartContext';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-import { CartDrawer } from './components/CartDrawer';
-import { ToastContainer } from './components/Toast';
+import React, { useState, useEffect } from "react";
+import { InventoryProvider, useInventory } from "./context/InventoryContext";
+import { CartProvider } from "./context/CartContext";
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import { CartDrawer } from "./components/CartDrawer";
+import { ToastContainer } from "./components/Toast";
 
-import { HomePage } from './pages/HomePage';
-import { ProductDetailPage } from './pages/ProductDetailPage';
-import { CartPage } from './pages/CartPage';
-import { AdminPosPage } from './pages/AdminPosPage';
+import { HomePage } from "./pages/HomePage";
+import { ProductDetailPage } from "./pages/ProductDetailPage";
+import { CartPage } from "./pages/CartPage";
+import { AdminPosPage } from "./pages/AdminPosPage";
 
 function AppContent() {
   const { products } = useInventory();
-  
+
   // Path state navigation router
   const [currentPath, setCurrentPath] = useState(() => {
     const pathname = window.location.pathname;
-    return pathname || '/';
+    return pathname || "/";
   });
 
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -26,31 +26,46 @@ function AppContent() {
   // Listen to browser popstate (back/forward)
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname || '/');
+      setCurrentPath(window.location.pathname || "/");
     };
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  // Hidden admin keyboard shortcut (Ctrl+Shift+A or Alt+A)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (
+        (e.ctrlKey && e.shiftKey && (e.key === "A" || e.key === "a")) ||
+        (e.altKey && (e.key === "A" || e.key === "a"))
+      ) {
+        e.preventDefault();
+        navigate("/admin");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   // Always scroll to top of page on route change or product selection
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [currentPath, selectedProduct?.id]);
 
   const navigate = (path) => {
-    window.history.pushState({}, '', path);
+    window.history.pushState({}, "", path);
     setCurrentPath(path);
-    if (!path.startsWith('/product')) {
+    if (!path.startsWith("/product")) {
       setSelectedProduct(null);
     }
   };
 
-  const showToast = (title, description, type = 'success') => {
+  const showToast = (title, description, type = "success") => {
     const newToast = {
       id: Date.now().toString(),
       title,
       description,
-      type
+      type,
     };
     setToasts((prev) => [...prev, newToast]);
 
@@ -71,8 +86,8 @@ function AppContent() {
 
   // Resolve product from URL if navigated directly or refreshed
   let activeProduct = selectedProduct;
-  if (!activeProduct && currentPath.startsWith('/product/')) {
-    const productId = currentPath.split('/product/')[1];
+  if (!activeProduct && currentPath.startsWith("/product/")) {
+    const productId = currentPath.split("/product/")[1];
     if (productId) {
       activeProduct = products.find((p) => p.id === productId) || null;
     }
@@ -91,11 +106,11 @@ function AppContent() {
 
       {/* Main Content Router */}
       <main className="flex-1">
-        {currentPath.startsWith('/product') ? (
+        {currentPath.startsWith("/product") ? (
           activeProduct ? (
             <ProductDetailPage
               product={activeProduct}
-              onBack={() => navigate('/')}
+              onBack={() => navigate("/")}
               onSelectProduct={handleSelectProduct}
               onShowToast={showToast}
             />
@@ -106,9 +121,9 @@ function AppContent() {
               navigate={navigate}
             />
           )
-        ) : currentPath === '/cart' ? (
+        ) : currentPath === "/cart" ? (
           <CartPage navigate={navigate} onShowToast={showToast} />
-        ) : currentPath.startsWith('/admin') ? (
+        ) : currentPath.startsWith("/admin") ? (
           <AdminPosPage navigate={navigate} onShowToast={showToast} />
         ) : (
           <HomePage
