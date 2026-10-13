@@ -35,15 +35,12 @@ export const Footer = ({ navigate }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand Info */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 p-[1px]">
-                <div className="w-full h-full bg-[#0F2747] rounded-full flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                </div>
-              </div>
-              <span className="font-serif text-2xl font-bold text-white tracking-wide">
-                My <span className="text-amber-400 italic">Scents</span>
-              </span>
+            <div className="flex items-center gap-3">
+              <img
+                src="logo.webp"
+                alt="My Scents Collection"
+                className="h-22 w-auto object-contain"
+              />
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
               Luxury fragrances crafted for unforgettable moments. Premium
@@ -53,7 +50,7 @@ export const Footer = ({ navigate }) => {
             <div className="pt-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">
                 <Sparkles className="w-3 h-3 text-amber-400" /> 100% Original
-                Extrait De Parfum
+                Eau de Parfum
               </span>
             </div>
           </div>
@@ -140,19 +137,13 @@ export const Footer = ({ navigate }) => {
               Visit Our Boutique
             </h4>
             <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3 text-slate-300">
-                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>
-                  Shop 12, Zamzama Boulevard, Phase 5, DHA, Karachi, Pakistan
-                </span>
-              </li>
               <li className="flex items-center gap-3 text-slate-300">
                 <Phone className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>+92 300 1234567</span>
+                <span>+92 335 7117111</span>
               </li>
               <li className="flex items-center gap-3 text-slate-300">
                 <Mail className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>hello@myscentscollection.com</span>
+                <span>myscentscollection01@gmail.com</span>
               </li>
               <li className="flex items-center gap-3 text-slate-300">
                 <Clock className="w-4 h-4 text-amber-400 shrink-0" />

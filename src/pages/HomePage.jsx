@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import React, { useState } from "react";
+import { motion } from "motion/react";
 import {
   Sparkles,
   Search,
@@ -15,29 +15,43 @@ import {
   Database,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2
-} from 'lucide-react';
-import { ProductCard } from '../components/ProductCard';
-import { useInventory } from '../context/InventoryContext';
+  CheckCircle2,
+} from "lucide-react";
+import { ProductCard } from "../components/ProductCard";
+import { useInventory } from "../context/InventoryContext";
 
-export const HomePage = ({
-  onSelectProduct,
-  onShowToast,
-  navigate
-}) => {
-  const { products, loading, seedInitialProducts, isFirebaseConnected, submitInquiry } = useInventory();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [priceFilter, setPriceFilter] = useState('all');
+export const HomePage = ({ onSelectProduct, onShowToast, navigate }) => {
+  const {
+    products,
+    loading,
+    seedInitialProducts,
+    isFirebaseConnected,
+    submitInquiry,
+  } = useInventory();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [priceFilter, setPriceFilter] = useState("all");
   const [isSeeding, setIsSeeding] = useState(false);
   const [isSubmittingInquiry, setIsSubmittingInquiry] = useState(false);
 
   // Form State
-  const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
   const [contactSuccess, setContactSuccess] = useState(false);
 
   // Categories extraction
-  const categories = ['All', 'Woody & Amber', 'Oud & Oriental', 'Fresh & Aquatic', 'Floral Gourmand', 'Warm Gourmand'];
+  const categories = [
+    "All",
+    "Woody & Amber",
+    "Oud & Oriental",
+    "Fresh & Aquatic",
+    "Floral Gourmand",
+    "Warm Gourmand",
+  ];
 
   // Filter products
   const filteredProducts = products.filter((p) => {
@@ -47,11 +61,12 @@ export const HomePage = ({
       p.category.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory =
-      activeCategory === 'All' || p.category.toLowerCase() === activeCategory.toLowerCase();
+      activeCategory === "All" ||
+      p.category.toLowerCase() === activeCategory.toLowerCase();
 
     let matchesPrice = true;
-    if (priceFilter === 'under3000') matchesPrice = p.discount < 3000;
-    if (priceFilter === 'over3000') matchesPrice = p.discount >= 3000;
+    if (priceFilter === "under3000") matchesPrice = p.discount < 3000;
+    if (priceFilter === "over3000") matchesPrice = p.discount >= 3000;
 
     return matchesSearch && matchesCategory && matchesPrice;
   });
@@ -60,9 +75,12 @@ export const HomePage = ({
     try {
       setIsSeeding(true);
       await seedInitialProducts();
-      onShowToast('Database Seeded!', 'Successfully populated Firebase with 7 signature perfumes.');
+      onShowToast(
+        "Database Seeded!",
+        "Successfully populated Firebase with 7 signature perfumes.",
+      );
     } catch (e) {
-      onShowToast('Seeding Error', e.message);
+      onShowToast("Seeding Error", e.message);
     } finally {
       setIsSeeding(false);
     }
@@ -71,7 +89,10 @@ export const HomePage = ({
   const handleContactSubmit = async (e) => {
     e.preventDefault();
     if (!contactForm.name || !contactForm.email || !contactForm.message) {
-      onShowToast('Incomplete Form', 'Please fill in your name, email, and message.');
+      onShowToast(
+        "Incomplete Form",
+        "Please fill in your name, email, and message.",
+      );
       return;
     }
     try {
@@ -81,14 +102,17 @@ export const HomePage = ({
         email: contactForm.email,
         phone: contactForm.phone,
         message: contactForm.message,
-        subject: 'General Perfume Inquiry'
+        subject: "General Perfume Inquiry",
       });
       setContactSuccess(true);
-      setContactForm({ name: '', email: '', phone: '', message: '' });
-      onShowToast('Message Sent to Admin!', 'Thank you for reaching out. Our concierge & store admin have received your message.');
+      setContactForm({ name: "", email: "", phone: "", message: "" });
+      onShowToast(
+        "Message Sent to Admin!",
+        "Thank you for reaching out. Our concierge & store admin have received your message.",
+      );
       setTimeout(() => setContactSuccess(false), 5000);
     } catch (err) {
-      onShowToast('Error Sending Message', err.message || 'Please try again.');
+      onShowToast("Error Sending Message", err.message || "Please try again.");
     } finally {
       setIsSubmittingInquiry(false);
     }
@@ -101,7 +125,7 @@ export const HomePage = ({
         {/* Background Overlay with Unsplash Luxury Perfume Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=2000&auto=format&fit=crop"
+            src="hero.webp"
             alt="Luxury Fragrance Atmosphere"
             className="w-full h-full object-cover object-center opacity-40 scale-105 filter brightness-90 contrast-105"
           />
@@ -117,21 +141,28 @@ export const HomePage = ({
             className="max-w-2xl space-y-6"
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-widest uppercase">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Luxury Fragrance House
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Luxury
+              Fragrance House
             </div>
 
             <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-              My <em className="not-italic text-amber-400 font-serif">Scents</em> Collection
+              My{" "}
+              <em className="not-italic text-amber-400 font-serif">Scents</em>{" "}
+              Collection
             </h1>
 
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-xl">
-              Luxury fragrances crafted for unforgettable moments. Hand-compounded Extrait De Parfum with exceptional sillage and longevity.
+              Luxury fragrances crafted for unforgettable moments.
+              Hand-compounded Extrait De Parfum with exceptional sillage and
+              longevity.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
               <button
                 onClick={() => {
-                  document.getElementById('catalogue')?.scrollIntoView({ behavior: 'smooth' });
+                  document
+                    .getElementById("catalogue")
+                    ?.scrollIntoView({ behavior: "smooth" });
                 }}
                 className="px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-400 text-[#0F2747] text-sm font-bold shadow-xl hover:shadow-amber-500/20 hover:-translate-y-0.5 transition-all flex items-center gap-2"
               >
@@ -140,7 +171,9 @@ export const HomePage = ({
 
               <button
                 onClick={() => {
-                  document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                  document
+                    .getElementById("about")
+                    ?.scrollIntoView({ behavior: "smooth" });
                 }}
                 className="px-8 py-3.5 rounded-full border border-slate-400/50 hover:border-amber-400 text-white text-sm font-semibold hover:bg-white/10 transition-all"
               >
@@ -175,7 +208,8 @@ export const HomePage = ({
                 Premium Ingredients
               </h3>
               <p className="text-xs text-slate-500 mt-2 leading-relaxed">
-                Carefully sourced rare oils blended for a refined, long-lasting signature scent.
+                Carefully sourced rare oils blended for a refined, long-lasting
+                signature scent.
               </p>
             </div>
 
@@ -187,7 +221,8 @@ export const HomePage = ({
                 12+ Hour Longevity
               </h3>
               <p className="text-xs text-slate-500 mt-2 leading-relaxed">
-                Formulated at 30% concentration to stay with you from morning meetings to evening moments.
+                Formulated at 30% concentration to stay with you from morning
+                meetings to evening moments.
               </p>
             </div>
 
@@ -199,7 +234,8 @@ export const HomePage = ({
                 Keepsake Packaging
               </h3>
               <p className="text-xs text-slate-500 mt-2 leading-relaxed">
-                Every heavy glass bottle is presented as a keepsake, worthy of the liquid gold inside.
+                Every heavy glass bottle is presented as a keepsake, worthy of
+                the liquid gold inside.
               </p>
             </div>
 
@@ -211,7 +247,8 @@ export const HomePage = ({
                 Affordable Luxury
               </h3>
               <p className="text-xs text-slate-500 mt-2 leading-relaxed">
-                Niche luxury perfume experiences priced directly to make luxury accessible.
+                Niche luxury perfume experiences priced directly to make luxury
+                accessible.
               </p>
             </div>
           </div>
@@ -219,7 +256,10 @@ export const HomePage = ({
       </section>
 
       {/* CATALOGUE SECTION */}
-      <section id="catalogue" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section
+        id="catalogue"
+        className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
         <div className="text-center max-w-2xl mx-auto mb-10">
           <span className="text-xs font-semibold text-amber-600 tracking-widest uppercase">
             Signature Collection
@@ -228,7 +268,8 @@ export const HomePage = ({
             Our Perfume Catalogue
           </h2>
           <p className="text-slate-500 text-sm mt-2">
-            Explore our signature handcrafted luxury fragrances available directly from our boutique.
+            Explore our signature handcrafted luxury fragrances available
+            directly from our boutique.
           </p>
         </div>
 
@@ -240,14 +281,16 @@ export const HomePage = ({
               Firebase Inventory is Empty
             </h3>
             <p className="text-xs text-slate-600 mt-1 mb-4">
-              Click below to seed the database with the 7 signature perfumes and live initial inventory.
+              Click below to seed the database with the 7 signature perfumes and
+              live initial inventory.
             </p>
             <button
               onClick={handleSeed}
               disabled={isSeeding}
               className="px-6 py-2.5 rounded-full bg-[#0F2747] text-amber-400 text-xs font-bold hover:bg-amber-500 hover:text-[#0F2747] transition-all shadow-md inline-flex items-center gap-2"
             >
-              <Sparkles className="w-4 h-4" /> {isSeeding ? 'Seeding Database...' : 'Seed 7 Signature Products'}
+              <Sparkles className="w-4 h-4" />{" "}
+              {isSeeding ? "Seeding Database..." : "Seed 7 Signature Products"}
             </button>
           </div>
         )}
@@ -273,31 +316,31 @@ export const HomePage = ({
                 Price:
               </span>
               <button
-                onClick={() => setPriceFilter('all')}
+                onClick={() => setPriceFilter("all")}
                 className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  priceFilter === 'all'
-                    ? 'bg-[#0F2747] text-white'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  priceFilter === "all"
+                    ? "bg-[#0F2747] text-white"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
                 All Prices
               </button>
               <button
-                onClick={() => setPriceFilter('under3000')}
+                onClick={() => setPriceFilter("under3000")}
                 className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  priceFilter === 'under3000'
-                    ? 'bg-[#0F2747] text-white'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  priceFilter === "under3000"
+                    ? "bg-[#0F2747] text-white"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
                 Under Rs. 3,000
               </button>
               <button
-                onClick={() => setPriceFilter('over3000')}
+                onClick={() => setPriceFilter("over3000")}
                 className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                  priceFilter === 'over3000'
-                    ? 'bg-[#0F2747] text-white'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  priceFilter === "over3000"
+                    ? "bg-[#0F2747] text-white"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
                 Rs. 3,000 &amp; Above
@@ -313,8 +356,8 @@ export const HomePage = ({
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                   activeCategory === cat
-                    ? 'bg-amber-500 text-[#0F2747] font-bold shadow-sm'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    ? "bg-amber-500 text-[#0F2747] font-bold shadow-sm"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
                 {cat}
@@ -340,9 +383,9 @@ export const HomePage = ({
             </p>
             <button
               onClick={() => {
-                setSearchQuery('');
-                setActiveCategory('All');
-                setPriceFilter('all');
+                setSearchQuery("");
+                setActiveCategory("All");
+                setPriceFilter("all");
               }}
               className="mt-4 px-4 py-2 bg-[#0F2747] text-white text-xs font-semibold rounded-full hover:bg-amber-500 hover:text-[#0F2747] transition-all"
             >
@@ -364,7 +407,10 @@ export const HomePage = ({
       </section>
 
       {/* ABOUT / HERITAGE SECTION */}
-      <section id="about" className="py-20 bg-[#0F2747] text-white relative overflow-hidden">
+      <section
+        id="about"
+        className="py-20 bg-[#0F2747] text-white relative overflow-hidden"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -375,20 +421,39 @@ export const HomePage = ({
                 Crafting Signature Aromas For The Discerning Individual
               </h2>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                At My Scents Collection, we believe fragrance is not merely an accessory—it is your unwritten signature. Every fragrance bottle is blended from pure oils sourced from Grasse and Dubai to deliver unmatched sillage and longevity.
+                My Scents Collection is a fragrance brand created to celebrate
+                individuality and self-expression through scents designed for
+                every gender. We believe perfume is more than a finishing touch
+                — it is a reflection of your personality, confidence, and
+                personal style. Our mission is to craft high-quality, elegant
+                fragrances that empower you to feel confident, stylish, and
+                effortlessly sophisticated in every moment of your life. With
+                carefully curated notes and timeless compositions, we aim to
+                create perfumes that become a true extension of who you are,
+                allowing you to make a lasting impression while feeling
+                authentically yourself.
               </p>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Our mission is to bring high-end artisanal perfumery to fragrance lovers without luxury retail markups.
+                Our mission is to bring high-end artisanal perfumery to
+                fragrance lovers without luxury retail markups.
               </p>
 
               <div className="grid grid-cols-2 gap-6 pt-4">
                 <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                  <div className="text-2xl font-serif font-bold text-amber-400">7+</div>
-                  <div className="text-xs text-slate-300 mt-1">Signature Formulations</div>
+                  <div className="text-2xl font-serif font-bold text-amber-400">
+                    7+
+                  </div>
+                  <div className="text-xs text-slate-300 mt-1">
+                    Signature Formulations
+                  </div>
                 </div>
                 <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                  <div className="text-2xl font-serif font-bold text-amber-400">1,000+</div>
-                  <div className="text-xs text-slate-300 mt-1">Delighted Customers</div>
+                  <div className="text-2xl font-serif font-bold text-amber-400">
+                    1,000+
+                  </div>
+                  <div className="text-xs text-slate-300 mt-1">
+                    Delighted Customers
+                  </div>
                 </div>
               </div>
             </div>
@@ -396,9 +461,9 @@ export const HomePage = ({
             <div className="relative">
               <div className="rounded-3xl overflow-hidden shadow-2xl border border-amber-500/20">
                 <img
-                  src="https://images.unsplash.com/photo-1587017539504-67cfbddac569?q=80&w=800&auto=format&fit=crop"
+                  src="hero.webp"
                   alt="Crafting Perfumes"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-90 object-cover"
                 />
               </div>
             </div>
@@ -423,8 +488,12 @@ export const HomePage = ({
                   <Star key={s} className="w-5 h-5 fill-amber-400" />
                 ))}
               </div>
-              <span className="font-serif text-xl font-bold text-[#0F2747]">4.9 / 5.0</span>
-              <span className="text-xs text-slate-500">(1,000+ Verified Reviews)</span>
+              <span className="font-serif text-xl font-bold text-[#0F2747]">
+                4.9 / 5.0
+              </span>
+              <span className="text-xs text-slate-500">
+                (1,000+ Verified Reviews)
+              </span>
             </div>
           </div>
 
@@ -436,7 +505,8 @@ export const HomePage = ({
                 ))}
               </div>
               <p className="text-xs text-slate-600 italic leading-relaxed mb-4">
-                "Dark Flame is absolute perfection. I get compliments everywhere I go. Sillage easily lasts past 12 hours!"
+                "Dark Flame is absolute perfection. I get compliments everywhere
+                I go. Sillage easily lasts past 12 hours!"
               </p>
               <div className="flex items-center justify-between text-xs pt-3 border-t border-slate-200">
                 <span className="font-bold text-[#0F2747]">Ayesha K.</span>
@@ -453,7 +523,8 @@ export const HomePage = ({
                 ))}
               </div>
               <p className="text-xs text-slate-600 italic leading-relaxed mb-4">
-                "Oud Al Qalb has the rich, authenticCambodi oud aroma that usually costs 10x more. Magnificent presentation!"
+                "Oud Al Qalb has the rich, authenticCambodi oud aroma that
+                usually costs 10x more. Magnificent presentation!"
               </p>
               <div className="flex items-center justify-between text-xs pt-3 border-t border-slate-200">
                 <span className="font-bold text-[#0F2747]">Ahmed R.</span>
@@ -470,7 +541,8 @@ export const HomePage = ({
                 ))}
               </div>
               <p className="text-xs text-slate-600 italic leading-relaxed mb-4">
-                "Delivery was super fast and the packaging is gorgeous. Sultan is my new staple signature scent."
+                "Delivery was super fast and the packaging is gorgeous. Sultan
+                is my new staple signature scent."
               </p>
               <div className="flex items-center justify-between text-xs pt-3 border-t border-slate-200">
                 <span className="font-bold text-[#0F2747]">Sarah M.</span>
@@ -484,7 +556,10 @@ export const HomePage = ({
       </section>
 
       {/* CONTACT SECTION */}
-      <section id="contact" className="py-20 bg-[#F8F9FA] border-t border-slate-200">
+      <section
+        id="contact"
+        className="py-20 bg-[#F8F9FA] border-t border-slate-200"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
@@ -497,28 +572,26 @@ export const HomePage = ({
 
               <div className="space-y-4 text-sm text-slate-600">
                 <div className="flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200">
-                  <MapPin className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="font-semibold text-slate-900">Flagship Store Address</h4>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Shop 12, Zamzama Boulevard, Phase 5, DHA, Karachi, Pakistan
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200">
                   <Phone className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-semibold text-slate-900">Direct Phone &amp; WhatsApp</h4>
-                    <p className="text-xs text-slate-500 mt-0.5">+92 300 1234567</p>
+                    <h4 className="font-semibold text-slate-900">
+                      Direct Phone &amp; WhatsApp
+                    </h4>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      +92 335 7117111
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-white rounded-xl border border-slate-200">
                   <Mail className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-semibold text-slate-900">Email Inquiry</h4>
-                    <p className="text-xs text-slate-500 mt-0.5">hello@myscentscollection.com</p>
+                    <h4 className="font-semibold text-slate-900">
+                      Email Inquiry
+                    </h4>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      myscentscollection01@gmail.com
+                    </p>
                   </div>
                 </div>
               </div>
@@ -532,17 +605,25 @@ export const HomePage = ({
               {contactSuccess ? (
                 <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-medium flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                  Thank you! Your message has been received. Our concierge will get back to you shortly.
+                  Thank you! Your message has been received. Our concierge will
+                  get back to you shortly.
                 </div>
               ) : (
-                <form onSubmit={handleContactSubmit} className="space-y-4 text-xs">
+                <form
+                  onSubmit={handleContactSubmit}
+                  className="space-y-4 text-xs"
+                >
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Your Name</label>
+                    <label className="block font-semibold text-slate-700 mb-1">
+                      Your Name
+                    </label>
                     <input
                       type="text"
                       required
                       value={contactForm.name}
-                      onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                      onChange={(e) =>
+                        setContactForm({ ...contactForm, name: e.target.value })
+                      }
                       placeholder="e.g. Ayesha Khan"
                       className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 bg-slate-50"
                     />
@@ -550,22 +631,36 @@ export const HomePage = ({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Email Address</label>
+                      <label className="block font-semibold text-slate-700 mb-1">
+                        Email Address
+                      </label>
                       <input
                         type="email"
                         required
                         value={contactForm.email}
-                        onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                        onChange={(e) =>
+                          setContactForm({
+                            ...contactForm,
+                            email: e.target.value,
+                          })
+                        }
                         placeholder="you@example.com"
                         className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 bg-slate-50"
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Phone Number</label>
+                      <label className="block font-semibold text-slate-700 mb-1">
+                        Phone Number
+                      </label>
                       <input
                         type="tel"
                         value={contactForm.phone}
-                        onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
+                        onChange={(e) =>
+                          setContactForm({
+                            ...contactForm,
+                            phone: e.target.value,
+                          })
+                        }
                         placeholder="+92 3XX XXXXXXX"
                         className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 bg-slate-50"
                       />
@@ -573,12 +668,19 @@ export const HomePage = ({
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Message</label>
+                    <label className="block font-semibold text-slate-700 mb-1">
+                      Message
+                    </label>
                     <textarea
                       rows={4}
                       required
                       value={contactForm.message}
-                      onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                      onChange={(e) =>
+                        setContactForm({
+                          ...contactForm,
+                          message: e.target.value,
+                        })
+                      }
                       placeholder="Tell us what you are looking for..."
                       className="w-full p-3 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 bg-slate-50"
                     />
